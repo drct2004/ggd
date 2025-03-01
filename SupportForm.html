@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обращение в техподдержку</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            text-align: center;
+        }
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            font-weight: bold;
+            align-self: center;
+        }
+        input, textarea {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        button {
+            width: 90%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Связаться с техподдержкой</h2>
+        <form id="support-form">
+            <label for="name">Имя</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="message">Ваш вопрос</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+            
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <script>
+        (function(){
+            emailjs.init("kr2XrJedEfEbHcF8L"); 
+        })();
+
+        document.getElementById('support-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            emailjs.send("service_n6lrqne", "template_5g8bvpo", {
+                name: name,
+                email: email,
+                message: `От: ${email}\n\n${message}`
+            }).then(function(response) {
+                alert("Ваш запрос отправлен!");
+                document.getElementById('support-form').reset();
+            }, function(error) {
+                alert("Ошибка при отправке запроса!");
+                console.error(error);
+            });
+        });
+    </script>
+</body>
+</html>
